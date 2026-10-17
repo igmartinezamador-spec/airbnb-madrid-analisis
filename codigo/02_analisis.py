@@ -105,8 +105,8 @@ def p4(df):
     estancia_larga = df["estancia_larga"]
     sin_actividad = sin_resenas | estancia_larga
     etiqueta_sin = (
-        "Sin actividad reciente (sin resenas en 12 meses o con estancia minima "
-        "de 32 noches o mas)"
+        "Sin actividad reciente (sin reseñas en 12 meses o con estancia mínima "
+        "de 32 noches o más)"
     )
 
     total = pd.DataFrame({
