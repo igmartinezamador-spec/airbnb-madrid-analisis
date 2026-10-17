@@ -97,11 +97,112 @@ def p3(df):
     print("\nP3 licencia total:\n", total)
 
 
+def p4(df):
+    """Exporta la actividad reciente total, sus componentes y los distritos."""
+    resultados = RAIZ / "resultados"
+    resultados.mkdir(parents=True, exist_ok=True)
+    sin_resenas = ~df["activo_12m"]
+    estancia_larga = df["estancia_larga"]
+    sin_actividad = sin_resenas | estancia_larga
+    etiqueta_sin = (
+        "Sin actividad reciente (sin resenas en 12 meses o con estancia minima "
+        "de 32 noches o mas)"
+    )
+
+    total = pd.DataFrame({
+        "etiqueta": [etiqueta_sin, "Con actividad reciente"],
+        "n_anuncios": [sin_actividad.sum(), (~sin_actividad).sum()],
+    })
+    total["pct"] = 100 * total["n_anuncios"] / len(df)
+    total.round(2).to_csv(
+        resultados / "p4_actividad_total.csv", index=False, encoding="utf-8"
+    )
+
+    componentes = pd.DataFrame([{
+        "n_activo_12m_false": sin_resenas.sum(),
+        "n_estancia_larga_true": estancia_larga.sum(),
+        "n_ambos": (sin_resenas & estancia_larga).sum(),
+        "n_sin_actividad": sin_actividad.sum(),
+    }])
+    componentes.round(2).to_csv(
+        resultados / "p4_actividad_componentes.csv", index=False, encoding="utf-8"
+    )
+
+    distritos = df.assign(sin_actividad=sin_actividad).groupby(
+        "distrito", dropna=False
+    ).agg(
+        n_anuncios=("sin_actividad", "size"),
+        n_sin_actividad=("sin_actividad", "sum"),
+    ).reset_index()
+    distritos["pct_sin_actividad"] = (
+        100 * distritos["n_sin_actividad"] / distritos["n_anuncios"]
+    )
+    distritos.sort_values("n_anuncios", ascending=False, kind="stable").round(2).to_csv(
+        resultados / "p4_actividad_distritos.csv", index=False, encoding="utf-8"
+    )
+
+
+def p5(df):
+    """Exporta precios y puntuaciones por tipo y su relación sin precios extremos."""
+    resultados = RAIZ / "resultados"
+    resultados.mkdir(parents=True, exist_ok=True)
+    tipos = df.groupby("tipo", dropna=False).agg(
+        n_anuncios=("precio", "size"),
+        n_con_precio=("precio", "count"),
+        mediana_precio=("precio", "median"),
+        n_con_puntuacion=("puntuacion", "count"),
+        mediana_puntuacion=("puntuacion", "median"),
+    ).reset_index()
+    for variable in ("precio", "puntuacion"):
+        tipos.loc[
+            tipos[f"n_con_{variable}"] < MIN_PRECIOS, f"mediana_{variable}"
+        ] = float("nan")
+    tipos.round(2).to_csv(resultados / "p5_tipo.csv", index=False, encoding="utf-8")
+
+    validos = df.loc[
+        df["precio"].notna() & df["puntuacion"].notna() & ~df["precio_extremo"]
+    ].copy()
+
+    def correlacion(grupo):
+        # Spearman no está definida con menos de dos pares o valores constantes.
+        if (len(grupo) < 2 or grupo["precio"].nunique() < 2
+                or grupo["puntuacion"].nunique() < 2):
+            return float("nan")
+        return grupo["precio"].corr(grupo["puntuacion"], method="spearman")
+
+    correlaciones = [{
+        "tipo": "Total", "n": len(validos), "correlacion_spearman": correlacion(validos)
+    }]
+    for tipo, grupo in validos.groupby("tipo", dropna=False):
+        if len(grupo) >= MIN_PRECIOS:
+            correlaciones.append({
+                "tipo": tipo, "n": len(grupo),
+                "correlacion_spearman": correlacion(grupo),
+            })
+    pd.DataFrame(correlaciones).round(2).to_csv(
+        resultados / "p5_correlacion.csv", index=False, encoding="utf-8"
+    )
+
+    tramos = ["<4.5", "4.5-4.8", ">4.8"]
+    validos["tramo_puntuacion"] = "4.5-4.8"
+    validos.loc[validos["puntuacion"] < 4.5, "tramo_puntuacion"] = "<4.5"
+    validos.loc[validos["puntuacion"] > 4.8, "tramo_puntuacion"] = ">4.8"
+    por_tramo = validos.groupby("tramo_puntuacion").agg(
+        n=("precio", "size"), mediana_precio=("precio", "median")
+    ).reindex(tramos)
+    por_tramo["n"] = por_tramo["n"].fillna(0).astype(int)
+    por_tramo.round(2).to_csv(
+        resultados / "p5_precio_por_tramo_puntuacion.csv", encoding="utf-8"
+    )
+
+
 def main():
     df = pd.read_csv(RAIZ / "datos" / "limpios" / "anuncios.csv")
     p1(df)
     p2(df)
     p3(df)
+    p4(df)
+    p5(df)
 
 
 if __name__ == "__main__":
