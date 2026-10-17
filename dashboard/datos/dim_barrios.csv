@@ -1,0 +1,129 @@
+﻿barrio_id,barrio,distrito_id,n_anuncios,n_con_precio,muestra_anuncios,muestra_precio,latitud_centro,longitud_centro
+1,Acacias,1,196,152,n suficiente,n suficiente,40.40201,-3.70544
+2,Atocha,1,48,48,n suficiente,n suficiente,40.39991,-3.681316
+3,Chopera,1,130,108,n suficiente,n suficiente,40.396034,-3.69822
+4,Delicias,1,173,120,n suficiente,n suficiente,40.397474,-3.693339
+5,Imperial,1,171,141,n suficiente,n suficiente,40.40922,-3.718361
+6,Legazpi,1,47,41,n suficiente,n suficiente,40.388572,-3.690476
+7,Palos de Moguer,1,372,308,n suficiente,n suficiente,40.404021,-3.694346
+8,Aeropuerto,2,11,11,n insuficiente,n insuficiente,40.465215,-3.577689
+9,Alameda de Osuna,2,32,27,n suficiente,n insuficiente,40.456213,-3.588701
+10,Casco Histórico de Barajas,2,54,46,n suficiente,n suficiente,40.473777,-3.578402
+11,Corralejos,2,19,15,n insuficiente,n insuficiente,40.466037,-3.5933
+12,Timón,2,62,49,n suficiente,n suficiente,40.473797,-3.589541
+13,Abrantes,3,46,37,n suficiente,n suficiente,40.380918,-3.728072
+14,Buenavista,3,58,44,n suficiente,n suficiente,40.368905,-3.75254
+15,Comillas,3,137,115,n suficiente,n suficiente,40.393789,-3.711893
+16,Opañel,3,149,123,n suficiente,n suficiente,40.391067,-3.721778
+17,Puerta Bonita,3,83,63,n suficiente,n suficiente,40.380113,-3.738383
+18,San Isidro,3,192,151,n suficiente,n suficiente,40.395643,-3.728229
+19,Vista Alegre,3,109,79,n suficiente,n suficiente,40.38679,-3.740563
+20,Cortes,4,1061,913,n suficiente,n suficiente,40.414465,-3.698457
+21,Embajadores,4,2416,1938,n suficiente,n suficiente,40.410152,-3.703243
+22,Justicia,4,1174,952,n suficiente,n suficiente,40.423032,-3.698462
+23,Palacio,4,1701,1417,n suficiente,n suficiente,40.415755,-3.710734
+24,Sol,4,1277,1096,n suficiente,n suficiente,40.417231,-3.704588
+25,Universidad,4,1916,1550,n suficiente,n suficiente,40.424271,-3.705323
+26,Castilla,5,86,74,n suficiente,n suficiente,40.472033,-3.684392
+27,Ciudad Jardín,5,117,89,n suficiente,n suficiente,40.446993,-3.673543
+28,El Viso,5,105,78,n suficiente,n suficiente,40.444255,-3.684271
+29,Hispanoamérica,5,155,133,n suficiente,n suficiente,40.455663,-3.678183
+30,Nueva España,5,160,122,n suficiente,n suficiente,40.462906,-3.682767
+31,Prosperidad,5,246,203,n suficiente,n suficiente,40.442415,-3.672976
+32,Almagro,6,246,175,n suficiente,n suficiente,40.432796,-3.694046
+33,Arapiles,6,236,168,n suficiente,n suficiente,40.43324,-3.708672
+34,Gaztambide,6,233,191,n suficiente,n suficiente,40.434913,-3.714504
+35,Rios Rosas,6,255,184,n suficiente,n suficiente,40.442246,-3.698902
+36,Trafalgar,6,449,359,n suficiente,n suficiente,40.432279,-3.701403
+37,Vallehermoso,6,103,82,n suficiente,n suficiente,40.44256,-3.709595
+38,Atalaya,7,1,0,n insuficiente,n insuficiente,40.46366,-3.66427
+39,Colina,7,21,18,n insuficiente,n insuficiente,40.457703,-3.660844
+40,Concepción,7,90,75,n suficiente,n suficiente,40.437248,-3.652798
+41,Costillares,7,31,29,n suficiente,n insuficiente,40.473455,-3.666166
+42,Pueblo Nuevo,7,227,188,n suficiente,n suficiente,40.429353,-3.64001
+43,Quintana,7,95,85,n suficiente,n suficiente,40.435603,-3.647907
+44,San Juan Bautista,7,28,20,n insuficiente,n insuficiente,40.45108,-3.656977
+45,San Pascual,7,46,37,n suficiente,n suficiente,40.442569,-3.652705
+46,Ventas,7,220,179,n suficiente,n suficiente,40.428048,-3.653317
+47,El Goloso,8,7,4,n insuficiente,n insuficiente,40.509986,-3.700919
+48,El Pardo,8,2,2,n insuficiente,n insuficiente,40.524807,-3.778032
+49,Fuentelareina,8,4,4,n insuficiente,n insuficiente,40.477917,-3.741582
+50,La Paz,8,24,20,n insuficiente,n insuficiente,40.47927,-3.69443
+51,Mirasierra,8,18,13,n insuficiente,n insuficiente,40.492343,-3.715606
+52,Peñagrande,8,67,54,n suficiente,n suficiente,40.478787,-3.723261
+53,Pilar,8,66,53,n suficiente,n suficiente,40.476411,-3.710764
+54,Valverde,8,113,88,n suficiente,n suficiente,40.495099,-3.684512
+55,Apostol Santiago,9,33,29,n suficiente,n insuficiente,40.476137,-3.660725
+56,Canillas,9,140,126,n suficiente,n suficiente,40.463272,-3.645417
+57,Palomas,9,9,9,n insuficiente,n insuficiente,40.452614,-3.61332
+58,Pinar del Rey,9,147,133,n suficiente,n suficiente,40.473053,-3.644167
+59,Piovera,9,34,23,n suficiente,n insuficiente,40.456861,-3.63747
+60,Valdefuentes,9,166,145,n suficiente,n suficiente,40.489625,-3.644739
+61,Aguilas,10,52,44,n suficiente,n suficiente,40.380149,-3.772073
+62,Aluche,10,60,46,n suficiente,n suficiente,40.392165,-3.758063
+63,Campamento,10,24,16,n insuficiente,n insuficiente,40.39598,-3.773789
+64,Cuatro Vientos,10,6,6,n insuficiente,n insuficiente,40.37193,-3.772691
+65,Cármenes,10,44,38,n suficiente,n suficiente,40.402487,-3.735481
+66,Lucero,10,71,55,n suficiente,n suficiente,40.404893,-3.748765
+67,Puerta del Angel,10,230,178,n suficiente,n suficiente,40.409987,-3.732029
+68,Aravaca,11,51,41,n suficiente,n suficiente,40.456172,-3.780227
+69,Argüelles,11,341,241,n suficiente,n suficiente,40.426148,-3.716385
+70,Casa de Campo,11,104,78,n suficiente,n suficiente,40.425513,-3.726499
+71,Ciudad Universitaria,11,83,57,n suficiente,n suficiente,40.455943,-3.722917
+72,El Plantío,11,19,17,n insuficiente,n insuficiente,40.47028,-3.822238
+73,Valdemarín,11,6,5,n insuficiente,n insuficiente,40.466212,-3.788521
+74,Valdezarza,11,76,64,n suficiente,n suficiente,40.464851,-3.716815
+75,Fontarrón,12,57,35,n suficiente,n suficiente,40.401754,-3.645268
+76,Horcajo,12,4,3,n insuficiente,n insuficiente,40.40644,-3.626281
+77,Marroquina,12,21,17,n insuficiente,n insuficiente,40.409658,-3.646284
+78,Media Legua,12,21,16,n insuficiente,n insuficiente,40.409433,-3.656824
+79,Pavones,12,6,5,n insuficiente,n insuficiente,40.396568,-3.634894
+80,Vinateros,12,36,27,n suficiente,n insuficiente,40.404951,-3.643682
+81,Entrevías,13,62,53,n suficiente,n suficiente,40.38066,-3.670019
+82,Numancia,13,220,186,n suficiente,n suficiente,40.39858,-3.66205
+83,Palomeras Bajas,13,44,37,n suficiente,n suficiente,40.388355,-3.658485
+84,Palomeras Sureste,13,52,39,n suficiente,n suficiente,40.385996,-3.640138
+85,Portazgo,13,40,33,n suficiente,n suficiente,40.389549,-3.648884
+86,San Diego,13,266,215,n suficiente,n suficiente,40.39253,-3.66804
+87,Adelfas,14,158,101,n suficiente,n suficiente,40.400931,-3.670809
+88,Estrella,14,46,37,n suficiente,n suficiente,40.413302,-3.667774
+89,Ibiza,14,227,186,n suficiente,n suficiente,40.418962,-3.675889
+90,Jerónimos,14,82,68,n suficiente,n suficiente,40.412584,-3.686315
+91,Niño Jesús,14,56,49,n suficiente,n suficiente,40.412867,-3.674139
+92,Pacífico,14,265,215,n suficiente,n suficiente,40.404412,-3.677516
+93,Castellana,15,179,137,n suficiente,n suficiente,40.433731,-3.683525
+94,Fuente del Berro,15,168,127,n suficiente,n suficiente,40.426342,-3.665354
+95,Goya,15,379,287,n suficiente,n suficiente,40.425646,-3.675176
+96,Guindalera,15,404,331,n suficiente,n suficiente,40.435236,-3.668842
+97,Lista,15,220,169,n suficiente,n suficiente,40.431966,-3.675442
+98,Recoletos,15,314,263,n suficiente,n suficiente,40.424348,-3.685624
+99,Amposta,16,14,12,n insuficiente,n insuficiente,40.426777,-3.619714
+100,Arcos,16,47,41,n suficiente,n suficiente,40.423346,-3.616692
+101,Canillejas,16,107,94,n suficiente,n suficiente,40.441035,-3.610421
+102,Hellín,16,12,9,n insuficiente,n insuficiente,40.430216,-3.617487
+103,Rejas,16,162,140,n suficiente,n suficiente,40.444522,-3.579837
+104,Rosas,16,39,33,n suficiente,n suficiente,40.428805,-3.607513
+105,Salvador,16,28,24,n insuficiente,n insuficiente,40.44307,-3.633396
+106,Simancas,16,95,74,n suficiente,n suficiente,40.434739,-3.626957
+107,Almenara,17,187,168,n suficiente,n suficiente,40.470081,-3.692778
+108,Bellas Vistas,17,233,198,n suficiente,n suficiente,40.451145,-3.706131
+109,Berruguete,17,221,196,n suficiente,n suficiente,40.459766,-3.704236
+110,Castillejos,17,274,233,n suficiente,n suficiente,40.460081,-3.695629
+111,Cuatro Caminos,17,476,387,n suficiente,n suficiente,40.451503,-3.699321
+112,Valdeacederas,17,229,197,n suficiente,n suficiente,40.466122,-3.701709
+113,Almendrales,18,107,93,n suficiente,n suficiente,40.384721,-3.701311
+114,Moscardó,18,132,106,n suficiente,n suficiente,40.387958,-3.705472
+115,Orcasitas,18,22,15,n insuficiente,n insuficiente,40.369479,-3.712379
+116,Orcasur,18,65,58,n suficiente,n suficiente,40.377607,-3.695043
+117,Pradolongo,18,53,50,n suficiente,n suficiente,40.382143,-3.707509
+118,San Fermín,18,46,38,n suficiente,n suficiente,40.371701,-3.689817
+119,Zofío,18,49,37,n suficiente,n suficiente,40.381347,-3.714339
+120,Ambroz,19,12,9,n insuficiente,n insuficiente,40.406972,-3.605708
+121,Casco Histórico de Vicálvaro,19,50,41,n suficiente,n suficiente,40.400165,-3.599303
+122,Casco Histórico de Vallecas,20,86,67,n suficiente,n suficiente,40.373776,-3.617821
+123,Santa Eugenia,20,10,10,n insuficiente,n insuficiente,40.382073,-3.610361
+124,Butarque,21,27,20,n insuficiente,n insuficiente,40.348088,-3.679578
+125,Los Angeles,21,48,38,n suficiente,n suficiente,40.356162,-3.698883
+126,Los Rosales,21,48,36,n suficiente,n suficiente,40.353028,-3.687783
+127,San Andrés,21,103,89,n suficiente,n suficiente,40.340957,-3.707516
+128,San Cristobal,21,19,14,n insuficiente,n insuficiente,40.341932,-3.688552

@@ -108,3 +108,7 @@ Categorías tal como vienen en los datos:
 5. El tipo de alojamiento marca diferencias de precio mucho mayores que la puntuación, cuya relación con el precio es muy débil (Spearman 0,08).
 
 Pendiente de verificar: la moneda de los precios y el significado de la categoría de licencia "Otro".
+
+## Extra: dashboard en Power BI
+
+La carpeta `dashboard/` contiene los datos preparados (`codigo/04_dashboard.py`) y una guía paso a paso (`dashboard/GUIA_POWERBI.md`). El dashboard **no está construido ni verificado en Power BI**: la guía lo indica en cada punto que no se ha podido comprobar.
