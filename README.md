@@ -2,6 +2,13 @@
 
 Proyecto de portfolio de análisis de datos. Es un análisis **descriptivo** de 23.109 anuncios públicos de Inside Airbnb. No establece causas.
 
+## Fuente y licencia
+
+- **Fuente:** [Inside Airbnb](https://insideairbnb.com/get-the-data/), volcado de Madrid del 2026-09-17. Inside Airbnb es un proyecto independiente y no está afiliado a Airbnb.
+- **Licencia de los datos:** [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/), según figura en su página de descarga de datos (consultada el 2026-10-18). Su uso exige atribución.
+- **Alcance:** este análisis es independiente, hecho con fines formativos, y no es un producto de Inside Airbnb. Las cifras son resultado de mi procesado y pueden diferir de lo que publique la fuente.
+- Los datos crudos no se incluyen en este repositorio. Se pueden descargar desde el enlace de la fuente.
+
 ## Preguntas
 
 1. ¿Qué distritos y barrios concentran más anuncios y cuánto cuestan (mediana)?
