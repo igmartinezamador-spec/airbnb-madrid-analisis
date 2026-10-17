@@ -18,6 +18,7 @@ ENFASIS = "#B65D3B"
 TEXTO = "#26333D"
 EJE_PRECIO = "Mediana del precio publicado ($, moneda no verificada)"
 TOP = 10
+MIN_PRECIOS = 30
 
 
 def numero(valor, decimales=0):
@@ -231,6 +232,83 @@ def g7(df):
     return guardar(fig, "g7_precio_vs_puntuacion.png")
 
 
+def anillos(geom):
+    """Devuelve (exterior, huecos) de cada polígono de un MultiPolygon/Polygon."""
+    polis = geom["coordinates"] if geom["type"] == "MultiPolygon" else [geom["coordinates"]]
+    return polis
+
+
+def dibujar_mapa(barrios, columna, titulo, subtitulo, etiqueta_barra, nombre, nota, cmap):
+    """Mapa coroplético por barrio dibujado con matplotlib a partir del geojson."""
+    import json
+    from matplotlib.collections import PatchCollection
+    from matplotlib.patches import PathPatch
+    from matplotlib.path import Path as Ruta
+    import numpy as np
+
+    geo = json.loads((RAIZ / "datos" / "crudos" / "barrios.geojson").read_text(encoding="utf-8"))
+    valores = barrios.set_index("barrio")[columna]
+    parches, vals = [], []
+    for f in geo["features"]:
+        v = valores.get(f["properties"]["neighbourhood"], np.nan)
+        for poli in anillos(f["geometry"]):
+            vertices, codigos = [], []
+            for anillo in poli:
+                pts = np.asarray(anillo)[:, :2]
+                vertices.extend(pts)
+                codigos.extend([Ruta.MOVETO] + [Ruta.LINETO] * (len(pts) - 2) + [Ruta.CLOSEPOLY])
+            parches.append(PathPatch(Ruta(vertices, codigos)))
+            vals.append(v)
+    vals = np.array(vals, dtype=float)
+    fig, ax = plt.subplots(figsize=(8, 8.5))
+    fig.subplots_adjust(top=0.84, bottom=0.08, left=0.03, right=0.9)
+    fig.text(0.04, 0.965, titulo, fontsize=14, fontweight="bold", va="top")
+    fig.text(0.04, 0.89, subtitulo, fontsize=10, color=BASE, va="top")
+    coleccion = PatchCollection(parches, edgecolor="white", linewidth=0.4)
+    validos = vals[~np.isnan(vals)]
+    coleccion.set_array(np.ma.masked_invalid(vals))
+    coleccion.set_cmap(cmap.copy())
+    coleccion.get_cmap().set_bad("#EBDDC8")
+    coleccion.set_clim(validos.min(), validos.max())
+    ax.add_collection(coleccion)
+    ax.autoscale_view()
+    ax.set_aspect(1 / np.cos(np.radians(40.4)))
+    ax.axis("off")
+    cb = fig.colorbar(coleccion, ax=ax, shrink=0.6, pad=0.01)
+    cb.set_label(etiqueta_barra)
+    cb.outline.set_visible(False)
+    fig.text(0.04, 0.03, nota, fontsize=8.5, color=BASE, va="bottom")
+    ruta = SALIDA / nombre
+    fig.savefig(ruta, dpi=150)
+    plt.close(fig)
+    print(f"Generado: {ruta.relative_to(RAIZ)}")
+    return ruta
+
+
+def mapas(barrios):
+    from matplotlib.colors import LinearSegmentedColormap
+
+    cmap = LinearSegmentedColormap.from_list("azul_gris", ["#DCE3E8", BASE, "#26333D"])
+    top = barrios.sort_values("n_anuncios", ascending=False).iloc[0]
+    ruta1 = dibujar_mapa(
+        barrios, "n_anuncios",
+        f"{top['barrio']} es el barrio con más anuncios ({numero(top['n_anuncios'])})",
+        "Anuncios por barrio, Madrid",
+        "Anuncios (n)", "g8_mapa_anuncios_barrio.png",
+        "Fuente: Inside Airbnb, volcado 2026-09-17. Todos los barrios tienen dato.", cmap)
+    con_mediana = barrios.dropna(subset=["mediana_precio"])
+    caro = con_mediana.sort_values("mediana_precio", ascending=False).iloc[0]
+    n_insuf = int(barrios["mediana_precio"].isna().sum())
+    ruta2 = dibujar_mapa(
+        barrios, "mediana_precio",
+        f"Mediana de precio más alta: {caro['barrio']} ({numero(caro['mediana_precio'])} $)",
+        "Mediana del precio publicado por barrio ($, moneda no verificada)",
+        "Mediana del precio publicado ($)", "g9_mapa_mediana_precio_barrio.png",
+        f"Beige: {n_insuf} barrios con menos de {MIN_PRECIOS} anuncios con precio (n insuficiente). "
+        "Excluye anuncios sin precio.", cmap)
+    return [ruta1, ruta2]
+
+
 def main():
     configurar()
     SALIDA.mkdir(parents=True, exist_ok=True)
@@ -252,6 +330,7 @@ def main():
         g6(tablas["p5_tipo"], anuncios),
         g7(tablas["p5_precio_por_tramo_puntuacion"]),
     ]
+    rutas += mapas(pd.read_csv(RAIZ / "resultados" / "p1_barrios.csv"))
     for ruta in rutas:
         if not ruta.is_file() or ruta.stat().st_size == 0:
             raise RuntimeError(f"No se ha generado correctamente: {ruta}")
