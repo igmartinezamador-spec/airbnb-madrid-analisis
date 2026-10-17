@@ -1,0 +1,129 @@
+distrito,barrio,n_anuncios,pct_total,n_con_precio,mediana_precio
+Centro,Embajadores,2416,10.45,1938,155.0
+Centro,Universidad,1916,8.29,1550,171.62
+Centro,Palacio,1701,7.36,1417,186.5
+Centro,Sol,1277,5.53,1096,203.0
+Centro,Justicia,1174,5.08,952,187.86
+Centro,Cortes,1061,4.59,913,205.41
+Tetuán,Cuatro Caminos,476,2.06,387,132.5
+Chamberí,Trafalgar,449,1.94,359,171.0
+Salamanca,Guindalera,404,1.75,331,162.5
+Salamanca,Goya,379,1.64,287,202.18
+Arganzuela,Palos de Moguer,372,1.61,308,156.88
+Moncloa - Aravaca,Argüelles,341,1.48,241,171.0
+Salamanca,Recoletos,314,1.36,263,240.0
+Tetuán,Castillejos,274,1.19,233,128.88
+Puente de Vallecas,San Diego,266,1.15,215,117.76
+Retiro,Pacífico,265,1.15,215,126.0
+Chamberí,Rios Rosas,255,1.1,184,166.62
+Chamartín,Prosperidad,246,1.06,203,140.0
+Chamberí,Almagro,246,1.06,175,173.83
+Chamberí,Arapiles,236,1.02,168,130.95
+Chamberí,Gaztambide,233,1.01,191,121.5
+Tetuán,Bellas Vistas,233,1.01,198,130.33
+Latina,Puerta del Angel,230,1.0,178,107.25
+Tetuán,Valdeacederas,229,0.99,197,120.4
+Ciudad Lineal,Pueblo Nuevo,227,0.98,188,117.0
+Retiro,Ibiza,227,0.98,186,151.17
+Tetuán,Berruguete,221,0.96,196,118.84
+Ciudad Lineal,Ventas,220,0.95,179,122.29
+Puente de Vallecas,Numancia,220,0.95,186,119.94
+Salamanca,Lista,220,0.95,169,173.39
+Arganzuela,Acacias,196,0.85,152,133.42
+Carabanchel,San Isidro,192,0.83,151,109.0
+Tetuán,Almenara,187,0.81,168,136.0
+Salamanca,Castellana,179,0.77,137,186.02
+Arganzuela,Delicias,173,0.75,120,132.65
+Arganzuela,Imperial,171,0.74,141,134.98
+Salamanca,Fuente del Berro,168,0.73,127,177.2
+Hortaleza,Valdefuentes,166,0.72,145,143.22
+San Blas - Canillejas,Rejas,162,0.7,140,119.0
+Chamartín,Nueva España,160,0.69,122,166.75
+Retiro,Adelfas,158,0.68,101,142.5
+Chamartín,Hispanoamérica,155,0.67,133,173.33
+Carabanchel,Opañel,149,0.64,123,128.33
+Hortaleza,Pinar del Rey,147,0.64,133,112.0
+Hortaleza,Canillas,140,0.61,126,103.66
+Carabanchel,Comillas,137,0.59,115,126.91
+Usera,Moscardó,132,0.57,106,116.16
+Arganzuela,Chopera,130,0.56,108,130.75
+Chamartín,Ciudad Jardín,117,0.51,89,149.34
+Fuencarral - El Pardo,Valverde,113,0.49,88,105.0
+Carabanchel,Vista Alegre,109,0.47,79,96.48
+San Blas - Canillejas,Canillejas,107,0.46,94,90.0
+Usera,Almendrales,107,0.46,93,76.5
+Chamartín,El Viso,105,0.45,78,132.86
+Moncloa - Aravaca,Casa de Campo,104,0.45,78,149.0
+Chamberí,Vallehermoso,103,0.45,82,144.85
+Villaverde,San Andrés,103,0.45,89,105.8
+Ciudad Lineal,Quintana,95,0.41,85,139.0
+San Blas - Canillejas,Simancas,95,0.41,74,126.4
+Ciudad Lineal,Concepción,90,0.39,75,119.07
+Chamartín,Castilla,86,0.37,74,134.13
+Villa de Vallecas,Casco Histórico de Vallecas,86,0.37,67,101.6
+Carabanchel,Puerta Bonita,83,0.36,63,95.0
+Moncloa - Aravaca,Ciudad Universitaria,83,0.36,57,90.5
+Retiro,Jerónimos,82,0.35,68,224.97
+Moncloa - Aravaca,Valdezarza,76,0.33,64,109.2
+Latina,Lucero,71,0.31,55,98.49
+Fuencarral - El Pardo,Peñagrande,67,0.29,54,91.53
+Fuencarral - El Pardo,Pilar,66,0.29,53,120.0
+Usera,Orcasur,65,0.28,58,136.97
+Barajas,Timón,62,0.27,49,124.0
+Puente de Vallecas,Entrevías,62,0.27,53,76.0
+Latina,Aluche,60,0.26,46,75.34
+Carabanchel,Buenavista,58,0.25,44,99.98
+Moratalaz,Fontarrón,57,0.25,35,59.0
+Retiro,Niño Jesús,56,0.24,49,156.01
+Barajas,Casco Histórico de Barajas,54,0.23,46,141.0
+Usera,Pradolongo,53,0.23,50,97.75
+Latina,Aguilas,52,0.23,44,71.66
+Puente de Vallecas,Palomeras Sureste,52,0.23,39,70.5
+Moncloa - Aravaca,Aravaca,51,0.22,41,116.09
+Vicálvaro,Casco Histórico de Vicálvaro,50,0.22,41,72.67
+Usera,Zofío,49,0.21,37,92.0
+Arganzuela,Atocha,48,0.21,48,170.78
+Villaverde,Los Angeles,48,0.21,38,76.75
+Villaverde,Los Rosales,48,0.21,36,99.0
+Arganzuela,Legazpi,47,0.2,41,163.11
+San Blas - Canillejas,Arcos,47,0.2,41,82.8
+Carabanchel,Abrantes,46,0.2,37,76.33
+Ciudad Lineal,San Pascual,46,0.2,37,120.0
+Retiro,Estrella,46,0.2,37,146.5
+Usera,San Fermín,46,0.2,38,71.0
+Latina,Cármenes,44,0.19,38,82.25
+Puente de Vallecas,Palomeras Bajas,44,0.19,37,87.79
+Puente de Vallecas,Portazgo,40,0.17,33,57.71
+San Blas - Canillejas,Rosas,39,0.17,33,97.5
+Moratalaz,Vinateros,36,0.16,27,
+Hortaleza,Piovera,34,0.15,23,
+Hortaleza,Apostol Santiago,33,0.14,29,
+Barajas,Alameda de Osuna,32,0.14,27,
+Ciudad Lineal,Costillares,31,0.13,29,
+Ciudad Lineal,San Juan Bautista,28,0.12,20,
+San Blas - Canillejas,Salvador,28,0.12,24,
+Villaverde,Butarque,27,0.12,20,
+Fuencarral - El Pardo,La Paz,24,0.1,20,
+Latina,Campamento,24,0.1,16,
+Usera,Orcasitas,22,0.1,15,
+Ciudad Lineal,Colina,21,0.09,18,
+Moratalaz,Marroquina,21,0.09,17,
+Moratalaz,Media Legua,21,0.09,16,
+Barajas,Corralejos,19,0.08,15,
+Moncloa - Aravaca,El Plantío,19,0.08,17,
+Villaverde,San Cristobal,19,0.08,14,
+Fuencarral - El Pardo,Mirasierra,18,0.08,13,
+San Blas - Canillejas,Amposta,14,0.06,12,
+San Blas - Canillejas,Hellín,12,0.05,9,
+Vicálvaro,Ambroz,12,0.05,9,
+Barajas,Aeropuerto,11,0.05,11,
+Villa de Vallecas,Santa Eugenia,10,0.04,10,
+Hortaleza,Palomas,9,0.04,9,
+Fuencarral - El Pardo,El Goloso,7,0.03,4,
+Latina,Cuatro Vientos,6,0.03,6,
+Moncloa - Aravaca,Valdemarín,6,0.03,5,
+Moratalaz,Pavones,6,0.03,5,
+Fuencarral - El Pardo,Fuentelareina,4,0.02,4,
+Moratalaz,Horcajo,4,0.02,3,
+Fuencarral - El Pardo,El Pardo,2,0.01,2,
+Ciudad Lineal,Atalaya,1,0.0,0,
