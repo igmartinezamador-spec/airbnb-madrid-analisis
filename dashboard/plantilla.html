@@ -1,0 +1,546 @@
+<title>Alquiler turístico en Madrid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap">
+<style>
+/* Concepto: un tablero de lectura de arriba abajo. Cifras y filtros arriba, después una tarjeta por pregunta del análisis.
+   Un color base gris azulado y un color de énfasis (el de lo seleccionado o lo "sin actividad"). */
+:root {
+  --bg: #f4f6f8;
+  --panel: #ffffff;
+  --fg: #1c2630;
+  --muted: #5b6b79;
+  --line: #dde3e8;
+  --base: #647889;
+  --base-soft: #dce3e8;
+  --accent: #b65d3b;
+  --s-reg: #2a78d6;
+  --s-exe: #eb6834;
+  --s-otro: #1baf7a;
+  --s-nodato: #9aa7b2;
+  --map-lo: #dde5eb;
+  --map-hi: #26333d;
+  --na: #ecdfca;
+  --on-fill: #ffffff;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11171c; --panel: #192128; --fg: #e8edf1; --muted: #9fb0bd; --line: #2a3640;
+    --base: #8aa0b2; --base-soft: #2c3944; --accent: #e0845c;
+    --s-reg: #3987e5; --s-exe: #d95926; --s-otro: #199e70; --s-nodato: #6b7b88;
+    --map-lo: #26323c; --map-hi: #b5cbdb; --na: #5a4d3c; --on-fill: #ffffff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11171c; --panel: #192128; --fg: #e8edf1; --muted: #9fb0bd; --line: #2a3640;
+  --base: #8aa0b2; --base-soft: #2c3944; --accent: #e0845c;
+  --s-reg: #3987e5; --s-exe: #d95926; --s-otro: #199e70; --s-nodato: #6b7b88;
+  --map-lo: #26323c; --map-hi: #b5cbdb; --na: #5a4d3c; --on-fill: #ffffff;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); font-size: 14px; line-height: 1.45; }
+* { box-sizing: border-box; }
+.app { max-width: 1240px; margin-inline: auto; padding-inline: 16px; padding-block: 24px 40px; position: relative; }
+.eyebrow { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+h1 { font-family: var(--font-serif); font-weight: 500; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 0 0 8px; text-wrap: balance; }
+.takeaway { margin: 0; color: var(--muted); max-width: 78ch; font-size: 15px; }
+.filters { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: end; margin-block: 20px 16px; }
+.filters label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+select, button { font: inherit; color: inherit; }
+select { min-width: 170px; padding: 8px 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
+.btn { padding: 8px 12px; background: transparent; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
+.btn:hover { border-color: var(--base); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; min-width: 0; }
+.kpi .k { font-size: 12px; color: var(--muted); }
+.kpi .v { font-family: var(--font-serif); font-size: 34px; line-height: 1.1; margin-block: 4px 2px; font-variant-numeric: tabular-nums; }
+.kpi .s { font-size: 12px; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; margin-bottom: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; min-width: 0; }
+.card h2 { font-size: 16px; font-weight: 600; margin: 0 0 2px; text-wrap: balance; }
+.card .q { font-size: 12px; color: var(--muted); margin: 0 0 12px; }
+.row-head, .fila { display: grid; grid-template-columns: minmax(96px, 150px) 1fr 58px 72px; gap: 8px; align-items: center; }
+.row-head { font-size: 11px; color: var(--muted); padding-block: 0 4px; text-align: right; }
+.row-head span:first-child, .row-head span:nth-child(2) { text-align: left; }
+.fila { width: 100%; padding: 3px 4px; background: none; border: 0; border-radius: 4px; text-align: left; font-variant-numeric: tabular-nums; }
+button.fila { cursor: pointer; }
+button.fila:hover, .fila.sel { background: var(--base-soft); }
+.fila .lab { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fila .barra { height: 14px; display: flex; gap: 2px; min-width: 0; }
+.fila .barra i { display: block; height: 100%; background: var(--base); border-radius: 0 4px 4px 0; min-width: 2px; }
+.fila.sel .barra i { background: var(--accent); }
+.fila .val, .fila .med { text-align: right; font-size: 13px; }
+.fila .med { color: var(--muted); }
+.pila { height: 20px; display: flex; gap: 2px; min-width: 0; }
+.pila span { display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--on-fill); overflow: hidden; white-space: nowrap; min-width: 2px; }
+.pila span:first-child { border-radius: 4px 0 0 4px; }
+.pila span:last-child { border-radius: 0 4px 4px 0; }
+.stack-row { display: grid; grid-template-columns: minmax(96px, 150px) 1fr; gap: 8px; align-items: center; padding: 2px 4px; width: 100%; background: none; border: 0; border-radius: 4px; text-align: left; }
+button.stack-row { cursor: pointer; }
+button.stack-row:hover, .stack-row.sel { background: var(--base-soft); }
+.stack-row.total .lab { font-weight: 600; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-block: 0 10px; font-size: 12px; color: var(--muted); }
+.leyenda b { font-weight: 400; display: inline-flex; gap: 6px; align-items: center; }
+.leyenda i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex: none; }
+.nota { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
+.scroll-y { max-height: 680px; overflow-y: auto; }
+.mapa-wrap { display: grid; gap: 8px; }
+.toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; align-self: start; }
+.toggle button { padding: 6px 12px; background: transparent; border: 0; cursor: pointer; }
+.toggle button[aria-pressed="true"] { background: var(--base-soft); font-weight: 600; }
+svg.mapa { width: 100%; height: auto; max-height: 560px; display: block; }
+svg.mapa path { stroke: var(--panel); stroke-width: 1.2; vector-effect: non-scaling-stroke; cursor: default; }
+svg.mapa path.fade { opacity: .22; }
+.escala { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.escala .grad { flex: 0 1 180px; height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--map-lo), var(--map-hi)); }
+.escala .sw { width: 12px; height: 12px; border-radius: 2px; background: var(--na); display: inline-block; }
+.rho { font-family: var(--font-serif); font-size: 28px; margin: 0; }
+.lim ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+#tip { position: fixed; z-index: 10; pointer-events: none; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.18); max-width: 280px; }
+#tip[hidden] { display: none; }
+.pie { font-size: 12px; color: var(--muted); margin-top: 8px; }
+.pie a { color: inherit; }
+@media (max-width: 520px) {
+  .row-head, .fila { grid-template-columns: 78px 1fr 48px 60px; gap: 6px; }
+  .stack-row { grid-template-columns: 78px 1fr; }
+  .kpi .v { font-size: 28px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fila .barra i, .pila span { transition: width .25s ease, flex-grow .25s ease; }
+}
+</style>
+
+<div class="app" id="app">
+  <p class="eyebrow">Inside Airbnb · Madrid · volcado del 2026-09-17</p>
+  <h1>Alquiler turístico en Madrid</h1>
+  <p class="takeaway" id="takeaway"></p>
+
+  <div class="filters" role="group" aria-label="Filtros">
+    <label for="f-distrito">Distrito
+      <select id="f-distrito"></select>
+    </label>
+    <label for="f-tipo">Tipo de alojamiento
+      <select id="f-tipo"></select>
+    </label>
+    <button class="btn" id="f-reset" type="button">Quitar filtros</button>
+  </div>
+
+  <section class="kpis" id="kpis" aria-label="Cifras clave"></section>
+
+  <div class="grid">
+    <section class="card" id="p1-mapa">
+      <h2 id="mapa-titulo">Mapa por barrio</h2>
+      <p class="q">1. ¿Dónde se concentran los anuncios y cuánto cuestan? Pasa el cursor sobre un barrio.</p>
+      <div class="mapa-wrap">
+        <div class="toggle" role="group" aria-label="Qué colorear">
+          <button type="button" id="m-n" aria-pressed="true">Anuncios</button>
+          <button type="button" id="m-p" aria-pressed="false">Mediana de precio</button>
+        </div>
+        <svg class="mapa" id="mapa" role="img" aria-label="Mapa de barrios de Madrid"></svg>
+        <div class="escala" id="escala"></div>
+      </div>
+    </section>
+
+    <section class="card" id="p1-distritos">
+      <h2 id="dist-titulo">Anuncios por distrito</h2>
+      <p class="q">1. Haz clic en un distrito para filtrar todo el tablero. Mediana de precio publicado ($, moneda no verificada).</p>
+      <div class="row-head"><span>Distrito</span><span></span><span>Anuncios</span><span>Mediana $</span></div>
+      <div class="scroll-y" id="dist-lista"></div>
+      <p class="nota" id="dist-nota"></p>
+    </section>
+  </div>
+
+  <div class="grid">
+    <section class="card" id="p2">
+      <h2 id="p2-titulo">Profesionales y particulares</h2>
+      <p class="q">2. ¿Cuánto del mercado es profesional? Profesional: anfitrión con 5 o más anuncios (convención de este proyecto).</p>
+      <div class="leyenda" id="p2-leyenda"></div>
+      <div id="p2-pila"></div>
+      <div style="height:14px"></div>
+      <div class="row-head"><span>Anuncios del anfitrión</span><span></span><span>% anuncios</span><span>Mediana $</span></div>
+      <div id="p2-lista"></div>
+    </section>
+
+    <section class="card" id="p5">
+      <h2 id="tipo-titulo">Precio por tipo de alojamiento</h2>
+      <p class="q">5. Mediana de precio publicado ($). Haz clic en un tipo para filtrar. Este gráfico respeta el filtro de distrito.</p>
+      <div class="row-head"><span>Tipo</span><span></span><span>Anuncios</span><span>Mediana $</span></div>
+      <div id="tipo-lista"></div>
+      <div style="height:18px"></div>
+      <h2 id="punt-titulo">Precio y puntuación</h2>
+      <p class="q">Mediana de precio por tramo de puntuación, sin precios extremos (más de 1.000 $).</p>
+      <div class="row-head"><span>Puntuación</span><span></span><span>Anuncios</span><span>Mediana $</span></div>
+      <div id="punt-lista"></div>
+      <p class="rho" id="rho"></p>
+      <p class="nota" id="rho-nota"></p>
+    </section>
+  </div>
+
+  <div class="grid">
+    <section class="card" id="p3">
+      <h2 id="lic-titulo">Licencia por distrito</h2>
+      <p class="q">3. Categorías tal como vienen en los datos. "Sin dato" significa sin información, no irregular.</p>
+      <div class="leyenda" id="lic-leyenda"></div>
+      <div class="scroll-y" id="lic-lista"></div>
+    </section>
+
+    <section class="card" id="p4">
+      <h2 id="act-titulo">Actividad reciente por distrito</h2>
+      <p class="q">4. Las reseñas son solo un indicio de actividad, no una prueba.</p>
+      <div class="leyenda" id="act-leyenda"></div>
+      <div class="scroll-y" id="act-lista"></div>
+    </section>
+  </div>
+
+  <section class="card lim">
+    <h2>Cómo leer este tablero</h2>
+    <ul>
+      <li><b>Moneda:</b> el precio es el "precio publicado" que trae el volcado, con símbolo "$". No se ha podido verificar la moneda.</li>
+      <li><b>Medianas:</b> se calculan solo con anuncios que tienen precio y solo si hay 30 o más; con menos se muestra "n insuficiente". Los anuncios sin precio no entran en las medianas, pero sí en los recuentos.</li>
+      <li><b>Sin actividad reciente:</b> sin reseñas en 12 meses o con estancia mínima de 32 noches o más. Es un indicio, no demuestra que el anuncio esté inactivo.</li>
+      <li><b>Licencia:</b> no se compara con la normativa. "Otro" es una categoría del volcado cuyo significado no se ha verificado.</li>
+      <li><b>Descriptivo, no causal:</b> el tablero muestra qué hay en los datos, no por qué.</li>
+    </ul>
+    <p class="pie">Datos: <a href="https://insideairbnb.com/get-the-data/" target="_blank" rel="noopener">Inside Airbnb</a>, licencia <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Análisis independiente con fines formativos; no es un producto de Inside Airbnb.</p>
+  </section>
+  <div id="tip" hidden></div>
+</div>
+
+<script>
+const D = __DATOS__;
+
+/*PURE-START*/
+const MIN_N = 30;
+const COL = { B: 0, T: 1, P: 2, S: 3, X: 4, PR: 5, SA: 6, L: 7, TM: 8 };
+const barrioDistrito = D.barrios.map((b) => b[1]);
+
+function mediana(arr) {
+  if (!arr.length) return null;
+  const a = Float64Array.from(arr).sort();
+  const m = a.length >> 1;
+  return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
+}
+
+function filtrar(distrito, tipo) {
+  return D.filas.filter((r) =>
+    (distrito == null || barrioDistrito[r[COL.B]] === distrito) && (tipo == null || r[COL.T] === tipo));
+}
+
+function resumen(filas) {
+  const precios = [];
+  let prof = 0, sin = 0;
+  for (const r of filas) {
+    if (r[COL.P] != null) precios.push(r[COL.P]);
+    prof += r[COL.PR];
+    sin += r[COL.SA];
+  }
+  const n = filas.length;
+  return {
+    n, nPrecio: precios.length,
+    mediana: precios.length >= MIN_N ? mediana(precios) : null,
+    pctProf: n ? prof / n : null,
+    pctSin: n ? sin / n : null,
+  };
+}
+
+function agrupar(filas, clave, k) {
+  const g = Array.from({ length: k }, () => []);
+  for (const r of filas) g[clave(r)].push(r);
+  return g;
+}
+
+function rangos(v) {
+  const idx = v.map((_, i) => i).sort((a, b) => v[a] - v[b]);
+  const r = new Array(v.length);
+  for (let i = 0; i < idx.length;) {
+    let j = i;
+    while (j + 1 < idx.length && v[idx[j + 1]] === v[idx[i]]) j++;
+    const medio = (i + j) / 2 + 1;
+    for (let k = i; k <= j; k++) r[idx[k]] = medio;
+    i = j + 1;
+  }
+  return r;
+}
+
+function spearman(filas) {
+  const v = filas.filter((r) => r[COL.P] != null && r[COL.S] != null && r[COL.X] === 0);
+  if (v.length < MIN_N) return { n: v.length, rho: null };
+  const a = rangos(v.map((r) => r[COL.P]));
+  const b = rangos(v.map((r) => r[COL.S]));
+  const ma = a.reduce((s, x) => s + x, 0) / a.length;
+  const mb = b.reduce((s, x) => s + x, 0) / b.length;
+  let sab = 0, saa = 0, sbb = 0;
+  for (let i = 0; i < a.length; i++) {
+    sab += (a[i] - ma) * (b[i] - mb);
+    saa += (a[i] - ma) ** 2;
+    sbb += (b[i] - mb) ** 2;
+  }
+  return { n: v.length, rho: sab / Math.sqrt(saa * sbb) };
+}
+
+function tramos(filas) {
+  const v = filas.filter((r) => r[COL.P] != null && r[COL.S] != null && r[COL.X] === 0);
+  const g = [[], [], []];
+  for (const r of v) g[r[COL.S] < 4.5 ? 0 : r[COL.S] > 4.8 ? 2 : 1].push(r[COL.P]);
+  return g.map((p) => ({ n: p.length, mediana: p.length >= MIN_N ? mediana(p) : null }));
+}
+/*PURE-END*/
+
+const NOMBRE_SIN = "Sin actividad reciente (sin reseñas en 12 meses o con estancia mínima de 32 noches o más)";
+const NOMBRE_CON = "Con actividad reciente";
+const TRAMOS = ["Menos de 4,5", "De 4,5 a 4,8", "Más de 4,8"];
+const TAM_TXT = { "1 anuncio": "1 anuncio", "2-4": "2 a 4", "5-19": "5 a 19", "20 o más": "20 o más" };
+
+const nf = (d) => new Intl.NumberFormat("de-DE", { minimumFractionDigits: d, maximumFractionDigits: d });
+const f0 = nf(0), f1 = nf(1), f2 = nf(2);
+const num = (v) => f0.format(v);
+const pct = (x) => (x == null ? "—" : f1.format(100 * x) + " %");
+const usd = (v) => (v == null ? "n insuficiente" : f2.format(v) + " $");
+const $ = (id) => document.getElementById(id);
+
+const estado = { distrito: null, tipo: null, mapa: "n" };
+
+function opcion(valor, texto) {
+  const o = document.createElement("option");
+  o.value = valor;
+  o.textContent = texto;
+  return o;
+}
+
+function iniciarFiltros() {
+  const sd = $("f-distrito"), st = $("f-tipo");
+  sd.append(opcion("", "Todos los distritos"));
+  D.distritos.forEach((n, i) => sd.append(opcion(String(i), n)));
+  st.append(opcion("", "Todos los tipos"));
+  D.tipos.forEach((n, i) => st.append(opcion(String(i), n)));
+  sd.addEventListener("change", () => { estado.distrito = sd.value === "" ? null : Number(sd.value); pintar(); });
+  st.addEventListener("change", () => { estado.tipo = st.value === "" ? null : Number(st.value); pintar(); });
+  $("f-reset").addEventListener("click", () => { estado.distrito = null; estado.tipo = null; pintar(); });
+  $("m-n").addEventListener("click", () => { estado.mapa = "n"; pintar(); });
+  $("m-p").addEventListener("click", () => { estado.mapa = "precio"; pintar(); });
+}
+
+function alternar(clave, valor) {
+  estado[clave] = estado[clave] === valor ? null : valor;
+  pintar();
+}
+
+function barras(el, items, opts) {
+  // items: {lab, valor, ancho (0..1), n, med, sel, tip, clave}
+  el.innerHTML = items.map((it) => {
+    const etiqueta = `<span class="lab" title="${it.lab}">${it.lab}</span>
+      <span class="barra"><i style="width:${Math.max(0, Math.min(1, it.ancho)) * 100}%"></i></span>
+      <span class="val">${it.valor}</span><span class="med">${it.med}</span>`;
+    const tip = it.tip ? ` data-tip="${it.tip}"` : "";
+    return opts && opts.clic
+      ? `<button type="button" class="fila${it.sel ? " sel" : ""}" data-clic="${it.clave}"${tip}>${etiqueta}</button>`
+      : `<div class="fila${it.sel ? " sel" : ""}"${tip}>${etiqueta}</div>`;
+  }).join("");
+}
+
+function pila(etiqueta, conteos, colores, nombres, clase, clic) {
+  const total = conteos.reduce((s, x) => s + x, 0);
+  const segs = conteos.map((c, i) => {
+    const p = total ? c / total : 0;
+    const txt = p >= 0.07 ? f0.format(100 * p) : "";
+    const tip = `${etiqueta}: ${nombres[i]} · ${num(c)} anuncios (${pct(p)})`;
+    return `<span style="flex-grow:${c};flex-basis:0;background:${colores[i]}" data-tip="${tip}">${txt}</span>`;
+  }).join("");
+  const cuerpo = `<span class="lab" title="${etiqueta}">${etiqueta}</span><div class="pila">${segs}</div>`;
+  return clic != null
+    ? `<button type="button" class="stack-row ${clase}" data-clic="${clic}">${cuerpo}</button>`
+    : `<div class="stack-row ${clase}">${cuerpo}</div>`;
+}
+
+function pintar() {
+  const sd = $("f-distrito"), st = $("f-tipo");
+  sd.value = estado.distrito == null ? "" : String(estado.distrito);
+  st.value = estado.tipo == null ? "" : String(estado.tipo);
+
+  const todas = D.filas;
+  const global = resumen(todas);
+  const vista = filtrar(estado.distrito, estado.tipo);
+  const rv = resumen(vista);
+  const porTipoFiltro = filtrar(null, estado.tipo);      // para gráficos "por distrito"
+  const porDistritoFiltro = filtrar(estado.distrito, null); // para gráficos "por tipo"
+  const gruposDist = agrupar(porTipoFiltro, (r) => barrioDistrito[r[COL.B]], D.distritos.length);
+  const resDist = gruposDist.map(resumen);
+
+  // Titular
+  const ambito = [estado.distrito != null ? D.distritos[estado.distrito] : null, estado.tipo != null ? D.tipos[estado.tipo] : null]
+    .filter(Boolean).join(" · ");
+  const lider = agrupar(todas, (r) => barrioDistrito[r[COL.B]], D.distritos.length)
+    .reduce((m, g, i) => (g.length > m.g.length ? { g, i } : m), { g: [], i: 0 });
+  const topDistrito = { n: lider.g.length };
+  const iTop = lider.i;
+  $("takeaway").textContent = ambito
+    ? `${ambito}: ${num(rv.n)} anuncios (${pct(rv.n / global.n)} del total). ${pct(rv.pctProf)} son de anfitriones con 5 o más anuncios y ${pct(rv.pctSin)} no muestra actividad reciente.`
+    : `${D.distritos[iTop]} concentra el ${pct(topDistrito.n / global.n)} de los ${num(global.n)} anuncios. ${pct(global.pctProf)} son de anfitriones con 5 o más anuncios y ${pct(global.pctSin)} no muestra actividad reciente.`;
+
+  // KPIs
+  const kpis = [
+    ["Anuncios", num(rv.n), `${pct(rv.n / global.n)} del total`],
+    ["Mediana de precio publicado", rv.mediana == null ? "n insuficiente" : f2.format(rv.mediana) + " $", `${num(rv.nPrecio)} anuncios con precio · moneda no verificada`],
+    ["Anuncios de profesionales", pct(rv.pctProf), "Anfitrión con 5 o más anuncios"],
+    ["Sin actividad reciente", pct(rv.pctSin), "Sin reseñas en 12 meses o estancia mínima de 32 noches o más"],
+  ];
+  $("kpis").innerHTML = kpis.map(([k, v, s]) => `<div class="kpi"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
+
+  pintarDistritos(resDist);
+  pintarMapa(porTipoFiltro);
+  pintarProfesional(vista);
+  pintarTipos(porDistritoFiltro);
+  pintarPuntuacion(vista);
+  pintarLicencia(gruposDist);
+  pintarActividad(gruposDist);
+}
+
+function pintarDistritos(resDist) {
+  const orden = resDist.map((r, i) => i).sort((a, b) => resDist[b].n - resDist[a].n);
+  const max = Math.max(...resDist.map((r) => r.n), 1);
+  const total = resDist.reduce((s, r) => s + r.n, 0);
+  const lider = orden[0];
+  $("dist-titulo").textContent = `${D.distritos[lider]} reúne el ${pct(resDist[lider].n / total)} de los anuncios${estado.tipo != null ? " de este tipo" : ""}`;
+  barras($("dist-lista"), orden.map((i) => ({
+    lab: D.distritos[i], valor: num(resDist[i].n), med: resDist[i].mediana == null ? "n insuf." : f0.format(resDist[i].mediana) + " $",
+    ancho: resDist[i].n / max, sel: estado.distrito === i, clave: "d" + i,
+    tip: `${D.distritos[i]} · ${num(resDist[i].n)} anuncios (${pct(resDist[i].n / total)}) · mediana ${usd(resDist[i].mediana)} (${num(resDist[i].nPrecio)} con precio)`,
+  })), { clic: true });
+  $("dist-nota").textContent = "\"n insuf.\" indica menos de 30 anuncios con precio: no se calcula la mediana.";
+}
+
+function pintarMapa(filasTipo) {
+  const mp = D.mapa;
+  const gb = agrupar(filasTipo, (r) => r[COL.B], D.barrios.length).map(resumen);
+  const vals = gb.map((r) => (estado.mapa === "n" ? r.n : r.mediana));
+  const validos = vals.filter((v) => v != null);
+  const max = Math.max(...validos, 1), min = Math.min(...validos, 0);
+  const esN = estado.mapa === "n";
+  const lo = esN ? 0 : Math.min(...validos);
+  $("m-n").setAttribute("aria-pressed", esN);
+  $("m-p").setAttribute("aria-pressed", !esN);
+  const barrioTop = gb.reduce((m, r, i) => (r.n > gb[m].n ? i : m), 0);
+  $("mapa-titulo").textContent = esN
+    ? `${D.barrios[barrioTop][0]} es el barrio con más anuncios (${num(gb[barrioTop].n)})`
+    : (() => {
+        let k = -1;
+        gb.forEach((r, i) => { if (r.mediana != null && (k < 0 || r.mediana > gb[k].mediana)) k = i; });
+        return k < 0 ? "Mediana de precio por barrio" : `${D.barrios[k][0]} tiene la mediana de precio más alta (${f0.format(gb[k].mediana)} $)`;
+      })();
+  $("mapa").setAttribute("viewBox", `0 0 ${mp.ancho} ${mp.alto}`);
+  $("mapa").innerHTML = mp.paths.map((d, i) => {
+    const v = vals[i];
+    let fill;
+    if (v == null) fill = "var(--na)";
+    else {
+      const t = esN ? Math.sqrt(v / max) : (max === lo ? 1 : (v - lo) / (max - lo));
+      fill = `color-mix(in srgb, var(--map-hi) ${Math.round(t * 100)}%, var(--map-lo))`;
+    }
+    const fade = estado.distrito != null && D.barrios[i][1] !== estado.distrito ? " fade" : "";
+    const tip = `${D.barrios[i][0]} (${D.distritos[D.barrios[i][1]]}) · ${num(gb[i].n)} anuncios · mediana ${usd(gb[i].mediana)} (${num(gb[i].nPrecio)} con precio)`;
+    return `<path d="${d}" style="fill:${fill}" class="${fade.trim()}" data-tip="${tip}"></path>`;
+  }).join("");
+  $("escala").innerHTML = esN
+    ? `<span>0</span><span class="grad"></span><span>${num(max)} anuncios</span>`
+    : `<span>${f0.format(lo)} $</span><span class="grad"></span><span>${f0.format(max)} $</span><span class="sw"></span><span>n insuficiente (menos de ${MIN_N} anuncios con precio)</span>`;
+}
+
+function pintarProfesional(vista) {
+  const g = agrupar(vista, (r) => r[COL.TM], D.tamanos.length).map(resumen);
+  const total = vista.length;
+  const prof = vista.reduce((s, r) => s + r[COL.PR], 0);
+  const colores = ["var(--base)", "var(--accent)"];
+  const nombres = ["Particulares (1 a 4 anuncios)", "Profesionales (5 o más)"];
+  $("p2-titulo").textContent = total
+    ? `${pct(prof / total)} de los anuncios son de anfitriones con 5 o más anuncios`
+    : "Profesionales y particulares";
+  $("p2-leyenda").innerHTML = nombres.map((n, i) => `<b><i style="background:${colores[i]}"></i>${n}</b>`).join("");
+  $("p2-pila").innerHTML = pila("Anuncios", [total - prof, prof], colores, nombres, "total");
+  const maxN = Math.max(...g.map((r) => r.n), 1);
+  barras($("p2-lista"), g.map((r, i) => ({
+    lab: TAM_TXT[D.tamanos[i]], valor: pct(total ? r.n / total : null), med: r.mediana == null ? "n insuf." : f0.format(r.mediana) + " $",
+    ancho: r.n / maxN, sel: false,
+    tip: `Anfitriones con ${TAM_TXT[D.tamanos[i]]} · ${num(r.n)} anuncios · mediana ${usd(r.mediana)}`,
+  })));
+}
+
+function pintarTipos(filas) {
+  const g = agrupar(filas, (r) => r[COL.T], D.tipos.length).map((f) => ({ ...resumen(f) }));
+  const orden = g.map((_, i) => i).sort((a, b) => g[b].n - g[a].n);
+  const maxMed = Math.max(...g.map((r) => r.mediana || 0), 1);
+  const con = orden.filter((i) => g[i].mediana != null).sort((a, b) => g[b].mediana - g[a].mediana);
+  $("tipo-titulo").textContent = con.length >= 2
+    ? `${D.tipos[con[0]]}: mediana de ${f0.format(g[con[0]].mediana)} $, frente a ${f0.format(g[con[con.length - 1]].mediana)} $ en ${D.tipos[con[con.length - 1]].toLowerCase()}`
+    : "Precio por tipo de alojamiento";
+  barras($("tipo-lista"), orden.map((i) => ({
+    lab: D.tipos[i], valor: num(g[i].n), med: g[i].mediana == null ? "n insuf." : f0.format(g[i].mediana) + " $",
+    ancho: g[i].mediana == null ? 0 : g[i].mediana / maxMed, sel: estado.tipo === i, clave: "t" + i,
+    tip: `${D.tipos[i]} · ${num(g[i].n)} anuncios · mediana ${usd(g[i].mediana)} (${num(g[i].nPrecio)} con precio)`,
+  })), { clic: true });
+}
+
+function pintarPuntuacion(vista) {
+  const t = tramos(vista);
+  const maxMed = Math.max(...t.map((x) => x.mediana || 0), 1);
+  barras($("punt-lista"), t.map((x, i) => ({
+    lab: TRAMOS[i], valor: num(x.n), med: x.mediana == null ? "n insuf." : f0.format(x.mediana) + " $",
+    ancho: x.mediana == null ? 0 : x.mediana / maxMed, sel: false,
+    tip: `Puntuación ${TRAMOS[i].toLowerCase()} · ${num(x.n)} anuncios · mediana ${usd(x.mediana)}`,
+  })));
+  const s = spearman(vista);
+  const excluidos = vista.filter((r) => r[COL.X] === 1).length;
+  $("punt-titulo").textContent = s.rho == null ? "Precio y puntuación" : `Precio y puntuación casi no van unidos (ρ de Spearman = ${f2.format(s.rho)})`;
+  $("rho").textContent = s.rho == null ? "n insuficiente" : `ρ = ${f2.format(s.rho)}`;
+  $("rho-nota").textContent = `Correlación de Spearman entre precio y puntuación con ${num(s.n)} anuncios que tienen ambos datos; se excluyen ${num(excluidos)} anuncios con precio superior a 1.000 $. Relación descriptiva, no causal.`;
+}
+
+function pintarLicencia(gruposDist) {
+  const colores = ["var(--s-reg)", "var(--s-exe)", "var(--s-otro)", "var(--s-nodato)"];
+  $("lic-leyenda").innerHTML = D.licencias.map((n, i) => `<b><i style="background:${colores[i]}"></i>${n}</b>`).join("");
+  const conteo = (filas) => { const c = [0, 0, 0, 0]; for (const r of filas) c[r[COL.L]]++; return c; };
+  const todos = [].concat(...gruposDist);
+  const ct = conteo(todos), tt = ct.reduce((s, x) => s + x, 0);
+  $("lic-titulo").textContent = `${pct(ct[3] / tt)} de los anuncios no da información de licencia`;
+  const orden = gruposDist.map((_, i) => i).sort((a, b) => gruposDist[b].length - gruposDist[a].length);
+  $("lic-lista").innerHTML = pila("Todos", ct, colores, D.licencias, "total")
+    + orden.map((i) => pila(D.distritos[i], conteo(gruposDist[i]), colores, D.licencias, estado.distrito === i ? "sel" : "", "d" + i)).join("");
+}
+
+function pintarActividad(gruposDist) {
+  const colores = ["var(--base)", "var(--accent)"];
+  const nombres = [NOMBRE_CON, NOMBRE_SIN];
+  $("act-leyenda").innerHTML = nombres.map((n, i) => `<b><i style="background:${colores[i]}"></i>${n}</b>`).join("");
+  const conteo = (filas) => { const s = filas.reduce((a, r) => a + r[COL.SA], 0); return [filas.length - s, s]; };
+  const todos = [].concat(...gruposDist);
+  const ct = conteo(todos);
+  $("act-titulo").textContent = `${pct(ct[1] / (ct[0] + ct[1]))} de los anuncios aparece sin actividad reciente`;
+  const orden = gruposDist.map((_, i) => i).sort((a, b) => gruposDist[b].length - gruposDist[a].length);
+  $("act-lista").innerHTML = pila("Todos", ct, colores, nombres, "total")
+    + orden.map((i) => pila(D.distritos[i], conteo(gruposDist[i]), colores, nombres, estado.distrito === i ? "sel" : "", "d" + i)).join("");
+}
+
+// Clic en distrito o tipo desde cualquier gráfico, y tooltip común.
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-clic]");
+  if (!b) return;
+  const c = b.dataset.clic;
+  alternar(c[0] === "d" ? "distrito" : "tipo", Number(c.slice(1)));
+});
+const tip = $("tip");
+document.addEventListener("mousemove", (e) => {
+  const el = e.target.closest("[data-tip]");
+  if (!el) { tip.hidden = true; return; }
+  tip.textContent = el.dataset.tip;
+  tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, e.clientX + 14)) + "px";
+  tip.style.top = Math.max(8, Math.min(window.innerHeight - h - 8, e.clientY + 14)) + "px";
+});
+document.addEventListener("mouseleave", () => { tip.hidden = true; });
+
+iniciarFiltros();
+pintar();
+</script>

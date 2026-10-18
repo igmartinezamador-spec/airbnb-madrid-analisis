@@ -118,4 +118,4 @@ Pendiente de verificar: la moneda de los precios y el significado de la categor�
 
 ## Extra: dashboard en Power BI
 
-La carpeta `dashboard/` contiene los datos preparados (`codigo/04_dashboard.py`) y una guía paso a paso (`dashboard/GUIA_POWERBI.md`). El dashboard **no está construido ni verificado en Power BI**: la guía lo indica en cada punto que no se ha podido comprobar.
+La carpeta `dashboard/` contiene los datos preparados (`codigo/04_dashboard.py`) y una guía paso a paso (`dashboard/GUIA_POWERBI.md`). Además hay un tablero interactivo en HTML autocontenido (`dashboard/dashboard.html`, generado con `codigo/05_dashboard_html.py`; sus cifras se calculan en el navegador y se contrastaron con pandas). El dashboard de **Power BI no está construido ni verificado**: la guía lo indica en cada punto que no se ha podido comprobar.
