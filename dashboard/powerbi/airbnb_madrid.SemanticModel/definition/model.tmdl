@@ -1,0 +1,12 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-ES
+
+ref table anuncios
+ref table dim_distritos
+ref table dim_barrios
+ref table dim_tipos
+ref table dim_tamano_anfitrion
+
+ref expression RutaDatos

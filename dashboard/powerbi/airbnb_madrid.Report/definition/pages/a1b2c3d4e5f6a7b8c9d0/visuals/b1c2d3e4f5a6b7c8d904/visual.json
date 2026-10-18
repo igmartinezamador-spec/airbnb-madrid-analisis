@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "b1c2d3e4f5a6b7c8d904",
+  "position": {
+    "x": 493,
+    "y": 16,
+    "z": 0,
+    "height": 96,
+    "width": 249,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "anuncios"
+                    }
+                  },
+                  "Property": "Mediana precio (n>=30)"
+                }
+              },
+              "queryRef": "anuncios.Mediana precio (n>=30)",
+              "nativeQueryRef": "Mediana precio (n>=30)"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Mediana de precio publicado ($, moneda no verificada)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

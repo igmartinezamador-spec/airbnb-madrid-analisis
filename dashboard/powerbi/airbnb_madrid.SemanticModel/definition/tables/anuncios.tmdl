@@ -1,0 +1,167 @@
+table anuncios
+
+	measure 'Anuncios' = COUNTROWS(anuncios)
+		formatString: #,0
+
+	measure 'Anuncios con precio' = COUNT(anuncios[precio])
+		formatString: #,0
+
+	measure 'Mediana precio' = MEDIAN(anuncios[precio])
+		formatString: #,0.00
+
+	measure 'Mediana precio (n>=30)' = IF([Anuncios con precio] >= 30, [Mediana precio])
+		formatString: #,0.00
+
+	measure '% profesionales' = DIVIDE(CALCULATE([Anuncios], anuncios[es_profesional] = 1), [Anuncios])
+		formatString: 0.0%
+
+	measure '% sin actividad reciente' = DIVIDE(CALCULATE([Anuncios], anuncios[sin_actividad_reciente] = 1), [Anuncios])
+		formatString: 0.0%
+
+	measure '% licencia sin dato' = DIVIDE(CALCULATE([Anuncios], anuncios[licencia] = "Sin dato"), [Anuncios])
+		formatString: 0.0%
+
+	measure 'Mediana puntuación' = MEDIAN(anuncios[puntuacion])
+		formatString: 0.00
+
+	column id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: id
+
+	column barrio_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: barrio_id
+
+	column tipo_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: tipo_id
+
+	column tamano_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: tamano_id
+
+	column latitud
+		dataType: double
+		formatString: 0.00
+		summarizeBy: none
+		dataCategory: Latitude
+		sourceColumn: latitud
+
+	column longitud
+		dataType: double
+		formatString: 0.00
+		summarizeBy: none
+		dataCategory: Longitude
+		sourceColumn: longitud
+
+	column personas
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: personas
+
+	column dormitorios
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: dormitorios
+
+	column precio
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: precio
+
+	column precio_extremo
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: precio_extremo
+
+	column minimo_noches
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: minimo_noches
+
+	column disponibilidad_365
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: disponibilidad_365
+
+	column resenas
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: resenas
+
+	column resenas_12m
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: resenas_12m
+
+	column puntuacion
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: puntuacion
+
+	column licencia
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sourceColumn: licencia
+
+	column es_profesional
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: es_profesional
+
+	column estancia_larga
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: estancia_larga
+
+	column activo_12m
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: activo_12m
+
+	column sin_actividad_reciente
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: sin_actividad_reciente
+
+	column actividad
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sourceColumn: actividad
+
+	partition anuncios = m
+		mode: import
+		source =
+			let
+			    Origen = Csv.Document(File.Contents(RutaDatos & "\anuncios.csv"), [Delimiter=",", Columns=21, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+			    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+			    Tipos = Table.TransformColumnTypes(Encabezados, {{"id", Int64.Type},{"barrio_id", Int64.Type},{"tipo_id", Int64.Type},{"tamano_id", Int64.Type},{"latitud", type number},{"longitud", type number},{"personas", Int64.Type},{"dormitorios", type number},{"precio", type number},{"precio_extremo", Int64.Type},{"minimo_noches", type number},{"disponibilidad_365", Int64.Type},{"resenas", Int64.Type},{"resenas_12m", Int64.Type},{"puntuacion", type number},{"licencia", type text},{"es_profesional", Int64.Type},{"estancia_larga", Int64.Type},{"activo_12m", Int64.Type},{"sin_actividad_reciente", Int64.Type},{"actividad", type text}}, "en-US")
+			in
+			    Tipos

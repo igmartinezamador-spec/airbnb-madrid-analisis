@@ -1,0 +1,24 @@
+table dim_tipos
+
+	column tipo_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: tipo_id
+
+	column tipo
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sourceColumn: tipo
+
+	partition dim_tipos = m
+		mode: import
+		source =
+			let
+			    Origen = Csv.Document(File.Contents(RutaDatos & "\dim_tipos.csv"), [Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+			    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+			    Tipos = Table.TransformColumnTypes(Encabezados, {{"tipo_id", Int64.Type},{"tipo", type text}}, "en-US")
+			in
+			    Tipos

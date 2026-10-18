@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "b1c2d3e4f5a6b7c8d908",
+  "position": {
+    "x": 754,
+    "y": 124,
+    "z": 0,
+    "height": 285,
+    "width": 510,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "hundredPercentStackedBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_distritos"
+                    }
+                  },
+                  "Property": "distrito"
+                }
+              },
+              "queryRef": "dim_distritos.distrito",
+              "nativeQueryRef": "distrito"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "anuncios"
+                    }
+                  },
+                  "Property": "licencia"
+                }
+              },
+              "queryRef": "anuncios.licencia",
+              "nativeQueryRef": "licencia"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "anuncios"
+                    }
+                  },
+                  "Property": "Anuncios"
+                }
+              },
+              "queryRef": "anuncios.Anuncios",
+              "nativeQueryRef": "Anuncios"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Licencia por distrito (% de anuncios)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

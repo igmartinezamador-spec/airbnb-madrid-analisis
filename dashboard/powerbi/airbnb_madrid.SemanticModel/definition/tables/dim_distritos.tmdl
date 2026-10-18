@@ -1,0 +1,24 @@
+table dim_distritos
+
+	column distrito_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: distrito_id
+
+	column distrito
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sourceColumn: distrito
+
+	partition dim_distritos = m
+		mode: import
+		source =
+			let
+			    Origen = Csv.Document(File.Contents(RutaDatos & "\dim_distritos.csv"), [Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+			    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+			    Tipos = Table.TransformColumnTypes(Encabezados, {{"distrito_id", Int64.Type},{"distrito", type text}}, "en-US")
+			in
+			    Tipos

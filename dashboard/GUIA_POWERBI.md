@@ -2,6 +2,8 @@
 
 Esta guía es para alguien que usa Power BI por primera vez. Los datos están en `dashboard/datos/` y se generan con `codigo/04_dashboard.py`.
 
+> **Atajo:** en `dashboard/powerbi/` hay un proyecto `.pbip` ya montado (modelo, relaciones, medidas y una página de visuales). Lee `dashboard/powerbi/LEEME.md`. Está validado contra los esquemas de Microsoft pero **no abierto en Power BI Desktop**; esta guía sigue siendo el camino manual.
+
 ## Qué está verificado y qué no
 
 | Estado | Qué |

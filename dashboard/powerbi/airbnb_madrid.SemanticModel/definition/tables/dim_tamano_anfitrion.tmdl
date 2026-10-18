@@ -1,0 +1,31 @@
+table dim_tamano_anfitrion
+
+	column tamano_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: tamano_id
+
+	column tamano_anfitrion
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sortByColumn: tamano_id
+		sourceColumn: tamano_anfitrion
+
+	column perfil_anfitrion
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sourceColumn: perfil_anfitrion
+
+	partition dim_tamano_anfitrion = m
+		mode: import
+		source =
+			let
+			    Origen = Csv.Document(File.Contents(RutaDatos & "\dim_tamano_anfitrion.csv"), [Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+			    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+			    Tipos = Table.TransformColumnTypes(Encabezados, {{"tamano_id", Int64.Type},{"tamano_anfitrion", type text},{"perfil_anfitrion", type text}}, "en-US")
+			in
+			    Tipos

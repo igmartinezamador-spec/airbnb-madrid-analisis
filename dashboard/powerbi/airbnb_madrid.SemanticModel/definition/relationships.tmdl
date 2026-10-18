@@ -1,0 +1,15 @@
+relationship 7c1d2e3f-0000-4000-8000-000000000001
+	fromColumn: anuncios.barrio_id
+	toColumn: dim_barrios.barrio_id
+
+relationship 7c1d2e3f-0000-4000-8000-000000000002
+	fromColumn: dim_barrios.distrito_id
+	toColumn: dim_distritos.distrito_id
+
+relationship 7c1d2e3f-0000-4000-8000-000000000003
+	fromColumn: anuncios.tipo_id
+	toColumn: dim_tipos.tipo_id
+
+relationship 7c1d2e3f-0000-4000-8000-000000000004
+	fromColumn: anuncios.tamano_id
+	toColumn: dim_tamano_anfitrion.tamano_id

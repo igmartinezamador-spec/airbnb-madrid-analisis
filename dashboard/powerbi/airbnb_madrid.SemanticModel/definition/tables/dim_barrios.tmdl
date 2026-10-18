@@ -1,0 +1,69 @@
+table dim_barrios
+
+	column barrio_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: barrio_id
+
+	column barrio
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sourceColumn: barrio
+
+	column distrito_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: distrito_id
+
+	column n_anuncios
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: n_anuncios
+
+	column n_con_precio
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: n_con_precio
+
+	column muestra_anuncios
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sourceColumn: muestra_anuncios
+
+	column muestra_precio
+		dataType: string
+		formatString: General
+		summarizeBy: none
+		sourceColumn: muestra_precio
+
+	column latitud_centro
+		dataType: double
+		formatString: 0.00
+		summarizeBy: none
+		dataCategory: Latitude
+		sourceColumn: latitud_centro
+
+	column longitud_centro
+		dataType: double
+		formatString: 0.00
+		summarizeBy: none
+		dataCategory: Longitude
+		sourceColumn: longitud_centro
+
+	partition dim_barrios = m
+		mode: import
+		source =
+			let
+			    Origen = Csv.Document(File.Contents(RutaDatos & "\dim_barrios.csv"), [Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+			    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+			    Tipos = Table.TransformColumnTypes(Encabezados, {{"barrio_id", Int64.Type},{"barrio", type text},{"distrito_id", Int64.Type},{"n_anuncios", Int64.Type},{"n_con_precio", Int64.Type},{"muestra_anuncios", type text},{"muestra_precio", type text},{"latitud_centro", type number},{"longitud_centro", type number}}, "en-US")
+			in
+			    Tipos
